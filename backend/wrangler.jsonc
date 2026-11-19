@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "openwall-api",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-11-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MONGODB_CONNECTION",
+        "class_name": "MongoDBConnection"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["MongoDBConnection"]
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "LOGIN_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 10,
+        "period": 60
+      }
+    },
+    {
+      "name": "MESSAGE_LIMITER",
+      "namespace_id": "1002",
+      "simple": {
+        "limit": 20,
+        "period": 60
+      }
+    }
+  ],
+  "vars": {
+    "FRONTEND_URL": "https://chat.sivakumarangusamy.stream"
+  },
+  "routes": [
+    {
+      "pattern": "chat.sivakumarangusamy.stream/api/*",
+      "zone_name": "sivakumarangusamy.stream"
+    }
+  ]
+}
